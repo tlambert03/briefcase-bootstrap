@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Briefcase-Version: 0.3.3
+Name: napari-app
+Formal-Name: napari.app
+App-ID: com.napari.napari-app
+Version: 0.0.1
+Home-page: https://napari.org
+Author: napari team
+Author-email: napari@napari.com
+Summary: napari bundler

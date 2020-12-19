@@ -1,0 +1,33 @@
+[tool.briefcase]
+project_name = "napari"
+bundle = "com.napari"
+version = "0.0.1"
+url = "https://napari.org"
+license = "BSD license"
+author = 'napari team'
+author_email = "napari@napari.com"
+
+[tool.briefcase.app.napari-app]
+formal_name = "napari"
+description = "napari bundler"
+icon = "src/napari_app/resources/icon"
+sources = ['src/napari_app']
+requires = ['pip', 'wheel', "PySide2!=5.15.0"]
+
+
+[tool.briefcase.app.napari-app.macOS]
+requires = []
+
+[tool.briefcase.app.napari-app.linux]
+requires = []
+system_requires = []
+
+[tool.briefcase.app.napari-app.windows]
+requires = []
+
+# Mobile deployments
+[tool.briefcase.app.napari-app.iOS]
+requires = []
+
+[tool.briefcase.app.napari-app.android]
+requires = []
