@@ -6,7 +6,6 @@ jobs:
   bundle:
     name: Bundle ${{ matrix.platform }}
     runs-on: ${{ matrix.platform }}
-    if: github.repository == 'napari/napari'
     env:
       GITHUB_TOKEN: ${{ github.token }}
     strategy:
