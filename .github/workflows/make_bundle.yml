@@ -43,5 +43,5 @@ jobs:
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v2
         with:
-          name: napari-macOS.dmg
+          name: napari-win.msi
           path: windows/napari-0.0.1.msi
