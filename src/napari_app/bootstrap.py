@@ -22,7 +22,6 @@ class Installer:
         )
         env.insert("PATH", QProcessEnvironment.systemEnvironment().value("PATH"))
         env.insert("PYTHONPATH", combined_paths)
-        print(env.toStringList())
         self.process.setProcessEnvironment(env)
         self.set_output_widget(output_widget)
 
@@ -38,20 +37,7 @@ class Installer:
 
     def install(self, pkg_list):
         cmd = ["-m", "pip", "install", "--upgrade"]
-        # if sys.platform.startswith("linux"):
-        #     cmd += [
-        #         "--no-warn-script-location",
-        #         "--prefix",
-        #         user_plugin_dir(),
-        #     ]
         self.process.setArguments(cmd + pkg_list)
-        if self._output_widget:
-            self._output_widget.clear()
-        self.process.start()
-
-    def uninstall(self, pkg_list):
-        args = ["-m", "pip", "uninstall", "-y"]
-        self.process.setArguments(args + pkg_list)
         if self._output_widget:
             self._output_widget.clear()
         self.process.start()
@@ -63,17 +49,12 @@ class BootStrap(QWidget):
         if not app:
             app = QApplication([])
         super().__init__()
-        self.install = QPushButton("install", self)
+        self.install = QPushButton("install napari", self)
         self.install.clicked.connect(self._install)
-        self.uninstall = QPushButton("uninstall", self)
-        self.uninstall.clicked.connect(self._uninstall)
         self.stdout_text = QTextEdit(self)
         self.stdout_text.setReadOnly(True)
-        self.stdout_text.setObjectName("pip_install_status")
-        # self.stdout_text.hide()
         layout = QVBoxLayout(self)
         layout.addWidget(self.install)
-        layout.addWidget(self.uninstall)
         layout.addWidget(self.stdout_text)
         self.setLayout(layout)
         self.installer = Installer(self.stdout_text)
@@ -83,7 +64,11 @@ class BootStrap(QWidget):
         QApplication.instance().exec_()
 
     def _install(self):
-        self.installer.install(["napari"])
 
-    def _uninstall(self):
-        self.installer.uninstall(["napari"])
+        def restart():
+            self.stdout_text.append("rebooting...")
+            QApplication.instance().quit()
+            os.execl(sys.executable, 'python', *sys.argv)
+
+        self.installer.process.finished.connect(restart)
+        self.installer.install(["napari"])
